@@ -1,0 +1,188 @@
+### I3config nord ###
+# Hard Dependecies:
+# rofi pipewire wireplumber picom
+# Soft Dependecies:
+# firefox chromium kitty thunar feh
+
+# Start PipeWire & WirePlumber & Picom
+exec --no-startup-id pipewire
+exec --no-startup-id wireplumber
+exec --no-startup-id picom --config ~/.config/picom/picom.conf
+
+### Variables ###
+set $mod                             Mod4
+set $smod                            Shift
+set $amod                            Mod1
+set $wm_setting_font                 pango:Source Sans Pro, Semibold 20
+#set $wm_setting_gap_width            15
+#set $wm_setting_gap_height           15
+set $wm_setting_border_size          2
+set $wm_setting_key_left             H
+set $wm_setting_key_down             J
+set $wm_setting_key_up               K
+set $wm_setting_key_right            L
+
+set $wm_setting_app_terminal         kitty
+set $wm_setting_app_browser          chromium
+set $wm_setting_app_browser_alt      firefox
+set $wm_setting_app_launcher         rofi -show drun
+#set $wm_setting_app_compositor      picom
+set $wm_setting_file_browser         thunar
+
+set $wm_color_border_active_bg       #81A1C1
+set $wm_color_border_active_fg       #3B4252
+set $wm_color_border_inactive_bg     #3B4252
+set $wm_color_border_inactive_fg     #D8DEE9
+set $wm_color_background             #2E3440
+
+### Applications ###
+bindsym $mod+Return exec $wm_setting_app_terminal
+bindsym $mod+$smod+Return exec $wm_setting_app_browser
+bindsym $mod+$amod+Return exec $wm_setting_app_browser_alt
+bindsym $mod+d exec $wm_setting_app_launcher
+bindsym $mod+w exec rofi -show window
+bindsym $mod+s exec rofi -show ssh
+bindsym $mod+$smod+f exec $wm_setting_file_browser
+#exec_always --no-startup-id $wm_setting_app_compositor
+
+### Scratchpad ###
+bindsym $mod+Shift+z move scratchpad
+bindsym $mod+z scratchpad show
+# Launch a scratchpad kitty
+bindsym $mod+Shift+x exec kitty --title scratchpad-kitty
+for_window [title="scratchpad-kitty"] move scratchpad
+
+
+
+### Volume Control ###
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+### Brightness Control ###
+bindsym XF86MonBrightnessUp exec brightnessctl set +10% 
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%- 
+
+
+### Workspaces ###
+set $ws1  "    1    "
+set $ws2  "    2    "
+set $ws3  "    3    "
+set $ws4  "    4    "
+set $ws5  "    5    "
+set $ws6  "    6    "
+set $ws7  "    7    "
+set $ws8  "    8    "
+set $ws9  "    9    "
+set $ws10 "    10    "
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+bindsym $mod+$smod+1 move container to workspace $ws1
+bindsym $mod+$smod+2 move container to workspace $ws2
+bindsym $mod+$smod+3 move container to workspace $ws3
+bindsym $mod+$smod+4 move container to workspace $ws4
+bindsym $mod+$smod+5 move container to workspace $ws5
+bindsym $mod+$smod+6 move container to workspace $ws6
+bindsym $mod+$smod+7 move container to workspace $ws7
+bindsym $mod+$smod+8 move container to workspace $ws8
+bindsym $mod+$smod+9 move container to workspace $ws9
+bindsym $mod+$smod+0 move container to workspace $ws10
+
+### Window focus/move ###
+bindsym $mod+$wm_setting_key_left        focus left
+bindsym $mod+$wm_setting_key_down        focus down
+bindsym $mod+$wm_setting_key_up          focus up
+bindsym $mod+$wm_setting_key_right       focus right
+
+bindsym $mod+$smod+$wm_setting_key_left  move left
+bindsym $mod+$smod+$wm_setting_key_down  move down
+bindsym $mod+$smod+$wm_setting_key_up    move up
+bindsym $mod+$smod+$wm_setting_key_right move right
+
+### Multiple Monitors ###
+exec --no-startup-id ~/.screenlayout.sh
+
+### Resize mode ###
+mode "resize" {
+    bindsym $wm_setting_key_right  resize shrink width 5 px or 5 ppt
+    bindsym $wm_setting_key_up     resize grow height 5 px or 5 ppt
+    bindsym $wm_setting_key_down   resize shrink height 5 px or 5 ppt
+    bindsym $wm_setting_key_left   resize grow width 5 px or 5 ppt
+
+    bindsym $smod+$wm_setting_key_left  gaps horizontal minus 5
+    bindsym $smod+$wm_setting_key_down  gaps horizontal plus 5
+    bindsym $smod+$wm_setting_key_up    gaps vertical minus 5
+    bindsym $smod+$wm_setting_key_right gaps vertical plus 5
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+### Gaps ###
+#gaps horizontal $wm_setting_gap_width
+#gaps vertical   $wm_setting_gap_height
+#smart_gaps on
+
+### Borders ###
+default_border pixel $wm_setting_border_size
+default_floating_border pixel $wm_setting_border_size
+smart_borders on
+
+### Colors ###
+client.focused          $wm_color_border_active_bg   $wm_color_border_active_bg   $wm_color_border_active_fg   $wm_color_border_active_bg   $wm_color_border_active_bg
+client.focused_inactive $wm_color_border_inactive_bg $wm_color_border_inactive_bg $wm_color_border_inactive_fg $wm_color_border_inactive_bg $wm_color_border_inactive_bg
+client.unfocused        $wm_color_border_inactive_bg $wm_color_border_inactive_bg $wm_color_border_inactive_fg $wm_color_border_inactive_bg $wm_color_border_inactive_bg
+client.urgent           #D08770                       #D08770                       #2E3440                       #D08770                       #D08770
+client.placeholder      $wm_color_border_inactive_bg $wm_color_border_inactive_bg $wm_color_border_inactive_fg $wm_color_border_inactive_bg $wm_color_border_inactive_bg
+client.background       $wm_color_background
+
+### Miscellaneous ###
+font $wm_setting_font
+floating_modifier $mod
+workspace_auto_back_and_forth yes
+
+bindsym $mod+f fullscreen toggle
+bindsym $mod+$smod+q kill
+bindsym $mod+$smod+r restart
+#bindsym $mod+$smod+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/powermenu.sh
+
+exec_always --no-startup-id feh --bg-scale /home/wildet/Pictures/70.png 
+exec_always --no-startup-id setxkbmap se
+
+bar {
+	
+    position         top
+    mode             dock
+    font             pango:Source Sans Pro, Semibold 11
+    separator_symbol " | "
+    status_command   i3status
+    tray_output      primary
+    
+ 
+    colors {
+	background   #3B4252
+	statusline   #D8DEE9
+	separator    #D8DEE9
+
+	
+	focused_workspace  #A3BE8C #A3BE8C #2E3440
+	active_workspace   #EBCB8B #EBCB8B #2E3440
+	inactive_workspace #BF616A #BF616A #2E3440
+	urgent_workspace   #D08770 #D08770 #2E3440
+     }
+}
+
+
