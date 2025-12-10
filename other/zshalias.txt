@@ -1,0 +1,6 @@
+alias cdwm="nvim ~/suckless/dwm/config.h"
+alias mdwm="cd ~/suckless/dwm; sudo make clean install; cd -"
+alias syu="sudo xbps-install -Syu"
+alias vim="nvim"
+alias ff="fastfetch"
+alias checkkernel="xbps-query --regex -Rs '^linux[0-9.]+-[0-9._]+' | sort -Vrk2"
